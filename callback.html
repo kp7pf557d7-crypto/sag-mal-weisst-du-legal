@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>TikTok Login - Callback</title>
+<style>
+  body { font-family: -apple-system, sans-serif; max-width: 560px; margin: 60px auto; padding: 0 20px; color: #222; }
+  h2 { margin-bottom: 4px; }
+  .box { background: #f2f2f2; border-radius: 8px; padding: 16px; margin: 16px 0; word-break: break-all; font-family: monospace; font-size: 14px; }
+  .label { font-size: 13px; color: #666; margin-bottom: 4px; }
+  .error { color: #c0392b; }
+</style>
+</head>
+<body>
+  <div id="content">Lade...</div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+    const error = params.get("error");
+    const el = document.getElementById("content");
+
+    if (error) {
+      el.innerHTML = `<h2 class="error">Fehler</h2><div class="box">${error}</div>`;
+    } else if (code) {
+      el.innerHTML = `
+        <h2>Login erfolgreich</h2>
+        <p>Kopiere den folgenden Code und füge ihn im Terminal ein:</p>
+        <div class="label">code</div>
+        <div class="box" id="code">${code}</div>
+        <div class="label">state</div>
+        <div class="box" id="state">${state || ""}</div>
+      `;
+    } else {
+      el.innerHTML = `<h2 class="error">Kein Code erhalten</h2><p>Es fehlen die erwarteten URL-Parameter.</p>`;
+    }
+  </script>
+</body>
+</html>
